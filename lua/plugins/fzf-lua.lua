@@ -3,6 +3,8 @@
 -- LINKS :
 --   > github : https://github.com/ibhagwan/fzf-lua
 -- ABOUT : lua-based fzf wrapper and integration.
+-- NOTES : files & live grep live on <leader>fF / <leader>fG, fff (lua/plugins/fff.lua) owns
+--         <leader>ff / <leader>fg.
 -- ================================================================================================
 
 return {
@@ -11,14 +13,14 @@ return {
 	dependencies = { "nvim-tree/nvim-web-devicons" },
 	keys = {
 		{
-			"<leader>ff",
+			"<leader>fF",
 			function()
 				require("fzf-lua").files()
 			end,
 			desc = "FZF Files",
 		},
 		{
-			"<leader>fg",
+			"<leader>fG",
 			function()
 				require("fzf-lua").live_grep()
 			end,
