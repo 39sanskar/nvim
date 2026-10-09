@@ -41,6 +41,11 @@ end, { desc = "Reload entire config" })
 keymap("n", "<leader>rl", "<cmd>Lazy reload<CR>", { desc = "Reload Lazy plugins" })
 keymap("n", "<leader>rs", "<cmd>Lazy sync<CR>", { desc = "Sync Lazy plugins" })
 
+-- Searchable keymap guide (lua/keyguide). When adding a keymap, add it to lua/keyguide/registry.lua too
+keymap("n", "<leader>k", function()
+	require("keyguide").open()
+end, { desc = "Keymap guide (search in plain English)" })
+
 
 
 -- =============================================================================

@@ -7,6 +7,7 @@
   "cmp-path": { "branch": "main", "commit": "c642487086dbd9a93160e1679a1327be111cbc25" },
   "cmp_luasnip": { "branch": "master", "commit": "98d9cb5c2c38532bd9bdb481067b20fea8f32e90" },
   "efmls-configs-nvim": { "branch": "main", "commit": "2dd907fe0043b95a901a9aee814f17804aa4426d" },
+  "fff": { "branch": "main", "commit": "89c19270ea2dfc20829a7429f72022571558093e" },
   "friendly-snippets": { "branch": "main", "commit": "6cd7280adead7f586db6fccbd15d2cac7e2188b9" },
   "fzf-lua": { "branch": "main", "commit": "29ee11c06e1b8c354cc5a3212e6d24c9b8ed4f22" },
   "gitsigns.nvim": { "branch": "main", "commit": "9f3c6dd7868bcc116e9c1c1929ce063b978fa519" },

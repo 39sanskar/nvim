@@ -52,16 +52,16 @@ M.on_attach = function(event)
     
     if has_lspsaga then
         -- Lspsaga enhanced keymaps (better UI and UX)
-        keymap("n", "<leader>gd", "<cmd>Lspsaga peek_definition<CR>", opts) -- Peek at definition in popup
-        keymap("n", "<leader>gD", "<cmd>Lspsaga goto_definition<CR>", opts) -- Go to definition
-        keymap("n", "<leader>gS", "<cmd>vsplit | Lspsaga goto_definition<CR>", opts) -- Definition in vertical split
-        keymap("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", opts) -- Code actions menu with preview
-        keymap("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", opts) -- Rename symbol with preview
-        keymap("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", opts) -- Show line diagnostics in float
-        keymap("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts) -- Show cursor diagnostics
-        keymap("n", "<leader>pd", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts) -- Jump to previous diagnostic
-        keymap("n", "<leader>nd", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts) -- Jump to next diagnostic
-        keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", opts) -- Hover documentation with enhanced display
+        keymap("n", "<leader>gd", "<cmd>Lspsaga peek_definition<CR>", vim.tbl_extend("force", opts, { desc = "Peek definition" })) -- Peek at definition in popup
+        keymap("n", "<leader>gD", "<cmd>Lspsaga goto_definition<CR>", vim.tbl_extend("force", opts, { desc = "Go to definition" })) -- Go to definition
+        keymap("n", "<leader>gS", "<cmd>vsplit | Lspsaga goto_definition<CR>", vim.tbl_extend("force", opts, { desc = "Definition in vertical split" })) -- Definition in vertical split
+        keymap("n", "<leader>ca", "<cmd>Lspsaga code_action<CR>", vim.tbl_extend("force", opts, { desc = "Code actions" })) -- Code actions menu with preview
+        keymap("n", "<leader>rn", "<cmd>Lspsaga rename<CR>", vim.tbl_extend("force", opts, { desc = "Rename symbol" })) -- Rename symbol with preview
+        keymap("n", "<leader>D", "<cmd>Lspsaga show_line_diagnostics<CR>", vim.tbl_extend("force", opts, { desc = "Line diagnostics" })) -- Show line diagnostics in float
+        keymap("n", "<leader>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", vim.tbl_extend("force", opts, { desc = "Cursor diagnostics" })) -- Show cursor diagnostics
+        keymap("n", "<leader>pd", "<cmd>Lspsaga diagnostic_jump_prev<CR>", vim.tbl_extend("force", opts, { desc = "Previous diagnostic" })) -- Jump to previous diagnostic
+        keymap("n", "<leader>nd", "<cmd>Lspsaga diagnostic_jump_next<CR>", vim.tbl_extend("force", opts, { desc = "Next diagnostic" })) -- Jump to next diagnostic
+        keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", vim.tbl_extend("force", opts, { desc = "Hover documentation" })) -- Hover documentation with enhanced display
     else
         -- Fallback to native LSP keymaps when Lspsaga is not available
         
@@ -89,12 +89,12 @@ M.on_attach = function(event)
     -- FzfLua keymaps for enhanced searching capabilities
     local has_fzf_lua, _ = pcall(require, "fzf-lua")
     if has_fzf_lua then
-        keymap("n", "<leader>fd", "<cmd>FzfLua lsp_finder<CR>", opts) -- LSP Finder (definition + references)
-        keymap("n", "<leader>fr", "<cmd>FzfLua lsp_references<CR>", opts) -- Show all references to the symbol
-        keymap("n", "<leader>ft", "<cmd>FzfLua lsp_typedefs<CR>", opts) -- Jump to type definition
-        keymap("n", "<leader>fs", "<cmd>FzfLua lsp_document_symbols<CR>", opts) -- Symbols in current file
-        keymap("n", "<leader>fw", "<cmd>FzfLua lsp_workspace_symbols<CR>", opts) -- Symbols across workspace
-        keymap("n", "<leader>fi", "<cmd>FzfLua lsp_implementations<CR>", opts) -- Go to implementation
+        keymap("n", "<leader>fd", "<cmd>FzfLua lsp_finder<CR>", vim.tbl_extend("force", opts, { desc = "LSP finder" })) -- LSP Finder (definition + references)
+        keymap("n", "<leader>fr", "<cmd>FzfLua lsp_references<CR>", vim.tbl_extend("force", opts, { desc = "References" })) -- Show all references to the symbol
+        keymap("n", "<leader>ft", "<cmd>FzfLua lsp_typedefs<CR>", vim.tbl_extend("force", opts, { desc = "Type definition" })) -- Jump to type definition
+        keymap("n", "<leader>fs", "<cmd>FzfLua lsp_document_symbols<CR>", vim.tbl_extend("force", opts, { desc = "Document symbols" })) -- Symbols in current file
+        keymap("n", "<leader>fw", "<cmd>FzfLua lsp_workspace_symbols<CR>", vim.tbl_extend("force", opts, { desc = "Workspace symbols" })) -- Symbols across workspace
+        keymap("n", "<leader>fi", "<cmd>FzfLua lsp_implementations<CR>", vim.tbl_extend("force", opts, { desc = "Implementations" })) -- Go to implementation
     end
 
     -- ============================================================================
@@ -130,7 +130,7 @@ M.on_attach = function(event)
             vim.defer_fn(function()
                 vim.lsp.buf.format({ bufnr = bufnr })
             end, 50) -- Small delay (50ms) to ensure imports are organized first
-        end, opts)
+        end, vim.tbl_extend("force", opts, { desc = "Organize imports" }))
     end
 
     -- ============================================================================
@@ -138,18 +138,18 @@ M.on_attach = function(event)
     -- ============================================================================
 
     -- DAP keymaps specifically for Rust debugging (rust-analyzer)
-    -- Only activate when using rust-analyzer LSP client
-    if client.name == "rust_analyzer" then
+    -- Only activate when using rust-analyzer LSP client (rustaceanvim names it "rust-analyzer")
+    if client.name == "rust_analyzer" or client.name == "rust-analyzer" then
         -- Check if DAP plugin is available
         local has_dap, dap = pcall(require, "dap")
         if has_dap then
             -- Debugging control keymaps
-            keymap("n", "<leader>dc", dap.continue, opts) -- Continue / Start debugging session
-            keymap("n", "<leader>do", dap.step_over, opts) -- Step over current line
-            keymap("n", "<leader>di", dap.step_into, opts) -- Step into function call
-            keymap("n", "<leader>du", dap.step_out, opts) -- Step out of current function
-            keymap("n", "<leader>db", dap.toggle_breakpoint, opts) -- Toggle breakpoint at cursor
-            keymap("n", "<leader>dr", dap.repl.open, opts) -- Open DAP REPL for interactive debugging
+            keymap("n", "<leader>dc", dap.continue, vim.tbl_extend("force", opts, { desc = "Debug: start / continue" })) -- Continue / Start debugging session
+            keymap("n", "<leader>do", dap.step_over, vim.tbl_extend("force", opts, { desc = "Debug: step over" })) -- Step over current line
+            keymap("n", "<leader>di", dap.step_into, vim.tbl_extend("force", opts, { desc = "Debug: step into" })) -- Step into function call
+            keymap("n", "<leader>du", dap.step_out, vim.tbl_extend("force", opts, { desc = "Debug: step out" })) -- Step out of current function
+            keymap("n", "<leader>db", dap.toggle_breakpoint, vim.tbl_extend("force", opts, { desc = "Debug: toggle breakpoint" })) -- Toggle breakpoint at cursor
+            keymap("n", "<leader>dr", dap.repl.open, vim.tbl_extend("force", opts, { desc = "Debug: open REPL" })) -- Open DAP REPL for interactive debugging
         else
             print("DAP not available - debugging features disabled")
         end
